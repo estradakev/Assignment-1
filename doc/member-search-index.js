@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.mycompany.a1","c":"Starter","l":"destroy()"},{"p":"com.mycompany.a1","c":"Starter","l":"init(Object)","url":"init(java.lang.Object)"},{"p":"com.mycompany.a1","c":"Starter","l":"start()"},{"p":"com.mycompany.a1","c":"Starter","l":"Starter()","url":"%3Cinit%3E()"},{"p":"com.mycompany.a1","c":"Starter","l":"stop()"}]
