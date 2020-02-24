@@ -7,11 +7,13 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 public class Game extends Form{
 	private GameWorld gw ;
+	private boolean isExiting = false;
 	
 	public Game() {
 		gw = new GameWorld();
 		gw.init();
 		play();
+		
 	}
 	private void play(){
 		
@@ -28,6 +30,14 @@ public class Game extends Form{
 				String sCommand=myTextField.getText().toString();
 				myTextField.clear();
 				if(sCommand.length() != 0)
+//					if(isExiting) {
+//						switch(sCommand.charAt(0)) {
+//					case 'y':
+//						gw.exit();
+//						break;
+//					case 'n':
+//						isExiting = false;
+//					}
 					switch (sCommand.charAt(0)) {
 					case '1':
 						gw.baseCollision();
@@ -58,7 +68,11 @@ public class Game extends Form{
 						break;
 						
 					case 'x':
+						isExiting = true;
+						System.out.print("Are you sure you want to exit");
+						
 							gw.exit();
+							break;
 					case 'a':
 						gw.cyborgAccelerate();
 						break;
@@ -89,11 +103,8 @@ public class Game extends Form{
 					case 'm':
 						gw.mapGame();
 						break;
-					case 'y':
-						break;
-					case 'n':
-						break;
-					} //switch
+//					}
+				} //switch
 			
 			} //actionPerformed
 		}//new ActionListener()

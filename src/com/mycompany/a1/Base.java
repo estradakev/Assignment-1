@@ -14,7 +14,7 @@ public class Base extends FixedGameObject{
 	
 	//Constructor for base and sets the color to green
 	public Base(int size, Point location, int sequenceNum) {
-		super(size, location, ColorUtil.rgb(0,255,0));
+		super(size, location, ColorUtil.YELLOW);
 		this.size = size;
 
 		this.sequenceNumber = sequenceNum;

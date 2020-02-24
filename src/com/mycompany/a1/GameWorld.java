@@ -24,7 +24,7 @@ public class GameWorld {
 		this.lives = 3;
 		this.clock = 0;
 		
-		Point cyborgLocation = new Point(0,0);
+		Point cyborgLocation = new Point(r.nextInt(1000),r.nextInt(1000));
 		cyborg = new Cyborg(40, cyborgLocation, ColorUtil.BLUE);
 		gameObjects.add(new Base(BASE_SIZE, cyborgLocation,1));
 		
@@ -106,15 +106,15 @@ public class GameWorld {
 		
 		if (speed != maxSpeed && maxSpeed != 0) {
 			
-			if(this.cyborg.getDamageLevel() <= 50 && this.cyborg.getEnergyLevel() >= 150) {
+			if(this.cyborg.getDamageLevel() <= 50 ) {
 				 speed += 5;
 				 this.cyborg.setSpeed(speed);
 			}
-			else if(this.cyborg.getDamageLevel() <= 100 && this.cyborg.getEnergyLevel() >= 100) {
+			else if(this.cyborg.getDamageLevel() <= 100 ) {
 				speed += 3;
 				this.cyborg.setSpeed(speed);
 			}
-			else if(this.cyborg.getDamageLevel() <= 150 && this.cyborg.getEnergyLevel() >= 50) {
+			else if(this.cyborg.getDamageLevel() <= 150) {
 				speed += 1;
 				this.cyborg.setSpeed(speed);
 			}
@@ -145,14 +145,40 @@ public class GameWorld {
 	}
 	// This tells the cyborg to go left by 5 degrees
 	public void goLeft() {
-		int headingLeft = this.cyborg.getHeading();
-		this.cyborg.setHeading(headingLeft - 5);
+//		cyborg.turnLeft();
+		int steeringDir = cyborg.getSteeringDirection();
+		if(steeringDir == 0) {
+			cyborg.setSteeringDirection(steeringDir);
+			cyborg.setHeading(5);
+		}
+		if(steeringDir < 40) {
+			steeringDir -= 5;
+			cyborg.setSteeringDirection(steeringDir);
+			cyborg.setHeading(steeringDir);
+		}
+		else if(cyborg.getHeading() <= 90 && cyborg.getHeading() > 0) {
+			cyborg.setHeading(cyborg.getHeading() - 5);
+				
+		}
 		System.out.println("The cyborg has turned left by 5 degrees " + this.cyborg.getHeading() + "\n");
 	}
 	// This tells the cyborg to go right by 5 degrees
 	public void goRight() {
-		int headingRight = this.cyborg.getHeading();
-		this.cyborg.setHeading(headingRight + 5);
+//		cyborg.turnRight();
+		int steeringDir = cyborg.getSteeringDirection();
+		if(steeringDir == 0) {
+			cyborg.setSteeringDirection(steeringDir);
+			cyborg.setHeading(5);
+		}
+		if(steeringDir < 40) {
+			steeringDir += 5;
+			cyborg.setSteeringDirection(steeringDir);
+			cyborg.setHeading(steeringDir);
+		}
+		else if(cyborg.getHeading() < 90 && cyborg.getHeading() > -1) {
+			cyborg.setHeading(cyborg.getHeading() + 5);
+				
+		}
 		System.out.println("The cyborg has turned left by 5 degrees " + this.cyborg.getHeading() + "\n");
 
 		
@@ -169,9 +195,7 @@ public class GameWorld {
 					((MoveableGameObject) mvAble).move();
 				}
 				if(mvAble instanceof Drone) {
-					float x = Math.round(r.nextFloat()*10000/10);
-					float y = Math.round(r.nextFloat()*10000/10);
-					((Drone)mvAble).setLocation(new Point(x,y));
+					((Drone)mvAble).move();
 				}
 			}
 		} 
@@ -192,25 +216,30 @@ public class GameWorld {
 	}
 	
 	public void mapGame() {
+		
 		System.out.println("Cyborg: loc=(" + this.cyborg.getLocation().getX() + ", " + cyborg.getLocation().getY() + ")"
 				+ ", heading = " + cyborg.getHeading() + ", speed = " + cyborg.getSpeed() + ", size = " + cyborg.getSize() + ", "
 				+ "max speed = " + cyborg.getMaximumSpeed() + ", \n\tsteering direction = " + cyborg.getSteeringDirection()
-				+ ", energy level = " + cyborg.getEnergyLevel() + ", damage level = " + cyborg.getDamageLevel());
+				+ ", energy level = " + cyborg.getEnergyLevel() + ", damage level = " + cyborg.getDamageLevel() 
+				+ ", color: [" + ColorUtil.red(cyborg.getColor()) + ", " + ColorUtil.green(cyborg.getColor()) + ", "+ ColorUtil.blue(cyborg.getColor())+ "]" );
 		for(GameObject obj : gameObjects) {
 			if(obj instanceof Base) {
 				Base b = (Base) obj;
 				System.out.println("Base: loc=(" + b.getLocation().getX()+", " + b.getLocation().getY()+")"
-						+ ", size = " + b.getSize() + ", sequence number = " + b.getSequenceNumber());
+						+ ", size = " + b.getSize() + ", sequence number = " + b.getSequenceNumber()
+						+ ", color: [" + ColorUtil.red(b.getColor()) + ", " + ColorUtil.green(b.getColor()) + ", "+ ColorUtil.blue(b.getColor())+ "]" );
 			}
 			else if(obj instanceof EnergyStation) {
 				EnergyStation e = (EnergyStation) obj;
 				System.out.println("Energy Station: loc=(" + e.getLocation().getX() + ", " + e.getLocation().getY() + ")"
-						+ ", size = " + e.getSize() + ", capacity = " + e.getCapcity());
+						+ ", size = " + e.getSize() + ", capacity = " + e.getCapcity()
+						+ ", color: [" + ColorUtil.red(e.getColor()) + ", " + ColorUtil.green(e.getColor()) + ", "+ ColorUtil.blue(e.getColor())+ "]" );
 			}
 			else if(obj instanceof Drone) {
 				Drone d = (Drone) obj;
 				System.out.println("Drone: loc=(" + d.getLocation().getX() +", " + d.getLocation().getY() + ")"
-						+ ", heading = " + d.getHeading() + ", speed = " + d.getSpeed() + ", size = " + d.getSize());
+						+ ", heading = " + d.getHeading() + ", speed = " + d.getSpeed() + ", size = " + d.getSize()
+						+ ", color: [" + ColorUtil.red(d.getColor()) + ", " + ColorUtil.green(d.getColor()) + ", "+ ColorUtil.blue(d.getColor())+ "]" );
 			}
 		}
 		System.out.print("\n\n");

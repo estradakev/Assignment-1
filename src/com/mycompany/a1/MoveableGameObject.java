@@ -25,9 +25,7 @@ public class MoveableGameObject extends GameObject{
 	public int getHeading() {
 		return heading;
 	}
-	public void setHeading(int heading) {
-		this.heading = heading;
-	}
+	
 	
 	@Override
 	public String toString() {
@@ -46,7 +44,7 @@ public class MoveableGameObject extends GameObject{
 		
 		x = Math.round(x * 10)/10;
 		y = Math.round(y * 10)/10;
-		setLocation(new Point(x , y));
+		this.setLocation(new Point(x , y));
 		
 	}
 	
