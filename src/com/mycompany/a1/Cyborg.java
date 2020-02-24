@@ -88,38 +88,56 @@ public class Cyborg extends MoveableGameObject implements ISteerable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * It returns the damage level of the cyborg
+	 * @return damageLevel the attribute of the cyborg
 	 */
 	public int getDamageLevel() {
 		return damageLevel;
 	}
 
-
+	/**
+	 * Changes the damageLevel of the cyborg 
+	 * @param damageLevel it sets the new damageLevel
+	 */
 	public void setDamageLevel(int damageLevel) {
 		this.damageLevel = damageLevel;
 	}
 
-
+	/**
+	 * returns the lastBaseReached attribute
+	 * @return lastBaseReached
+	 */
 	public int getLastBaseReached() {
 		return lastBaseReached;
 	}
 
-
+	/**
+	 * Sets the new lastBaseReached
+	 * @param lastBaseReached it is the new updated base
+	 */
 	public void setLastBaseReached(int lastBaseReached) {
 		this.lastBaseReached = lastBaseReached;
 	}
 
-
+	/**
+	 * returns the energyConsumptionLevel attribute
+	 * @return energyConsumptionLevel 
+	 */
 	public int getEnergyConsumptionLevel() {
 		return energyConsumptionLevel;
 	}
 
-
+	/**
+	 * Sets the new energyConsumptionLevel
+	 * @param energyConsumptionLevel it is the updated value
+	 */
 	public void setEnergyConsumptionLevel(int energyConsumptionLevel) {
 		this.energyConsumptionLevel = energyConsumptionLevel;
 	}
 	
+	/**
+	 * it displays the Cyborg object
+	 */
 	@Override
 	public String toString() {
 		String parentObjStr = super.toString();
@@ -131,6 +149,9 @@ public class Cyborg extends MoveableGameObject implements ISteerable {
 		return parentObjStr + childObjStr;
 	}
 	
+	/**
+	 * overwrites the interface to be used in this class
+	 */
 	@Override
 	public void setHeading(int heading) {
 		this.heading = heading;

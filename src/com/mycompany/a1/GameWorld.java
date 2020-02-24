@@ -5,6 +5,11 @@ import java.util.Random;
 import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
 
+/**
+ * This class handles the movements and actions that happen within the world. It also displays the world and the status of the player
+ * @author kevinestrada
+ *
+ */
 public class GameWorld {
 	private final int BASE_SIZE = 10;
 	private int lives;
@@ -13,12 +18,16 @@ public class GameWorld {
 	private Cyborg cyborg;
 	
 	Random r = new Random();
+	// sets up how many base objects and energy stations there will be
 	int baseObjects = 4 + r.nextInt(5);
 	int energyBaseObjects = 2 + r.nextInt(5);
 	
 	
 	public GameWorld() {}
 	
+	/**
+	 * This method creates the objects and sets the max speed for the cyborg as well as setting the clock and the amount of lives 
+	 */
 	public void init() {
 		gameObjects  = new ArrayList<>();
 		this.lives = 3;
@@ -43,25 +52,36 @@ public class GameWorld {
 		
 	}
 	
-	
-	public int getLives() {
+	/**
+	 * returns the lives of the player
+	 * @return lives
+	 */
+	private int getLives() {
 		return this.lives;
 	}
-	
-	public int getClock() {
+	/**
+	 * returns the clock of the world
+	 * @return clock
+	 */
+	private int getClock() {
 		return this.clock;
 	}
-	//This method increases the damage level on the cyborg once it crashes with a cyborg
+	
+	/**
+	 * This method increases the damage level on the cyborg once it crashes with a cyborg
+	 */
 	public void cyborgCollision() {
 		int nuColor = ColorUtil.rgb(102,102,255);
+		
 		this.cyborg.setDamageLevel(this.cyborg.getDamageLevel() + 20);
 		System.out.print("The cyborg collided with another cyborg, the damage is now " + cyborg.getDamageLevel() +"\n\n");
 		cyborg.setColor(nuColor);
 	}
 	
-	//This method increases the damage level on the cyborg once it crashes with a drone
+	//This method increases the damage level on the cyborg once it crashes with a drone it also brightens the color of the drone
 	public void droneCollision() {
 		int nuColor = ColorUtil.rgb( 102, 255, 255);
+		
 		for(GameObject drone : gameObjects) {
 			if(drone instanceof Drone) {
 				cyborg.setDamageLevel(cyborg.getDamageLevel() + ((Drone)drone).getSize());
@@ -73,7 +93,10 @@ public class GameWorld {
 		cyborg.setColor(nuColor);
 		System.out.println("The cyborg collided with a drone, the damage is now " + cyborg.getDamageLevel() + "\n");
 	}
-	//This method increases the damage level on the cyborg once it crashes with a base
+	
+	/**
+	 * This method increases the damage level on the cyborg once it crashes with a base
+	 */
 	public void baseCollision() {
 		
 		for(GameObject base : gameObjects) {
@@ -84,9 +107,12 @@ public class GameWorld {
 			}
 		}
 	}
-	//This method increases the damage level on the cyborg once it crashes with a energy base
+	/**
+	 * This method increases the damage level on the cyborg once it crashes with a energy base and lightens the color of the base
+	 */
 	public void energyBaseCollision() {
 		int nuColor = ColorUtil.rgb(102, 255, 102);
+		
 		for(GameObject enBase : gameObjects) {
 			if(enBase instanceof EnergyStation && ((EnergyStation)enBase).getCapcity() != 0) {
 				cyborg.setEnergyLevel(cyborg.getEnergyLevel() + ((EnergyStation) enBase).getCapcity());
@@ -98,7 +124,9 @@ public class GameWorld {
 		}
 		
 	}
-	//This method increases the cyborg speed accordingly to the damage and energy level
+	/**
+	 * This method increases the cyborg speed accordingly to the damage and energy level
+	 */
 	public void cyborgAccelerate() {
 		int speed = this.cyborg.getSpeed();
 		int maxSpeed = this.cyborg.getMaximumSpeed();
@@ -129,9 +157,12 @@ public class GameWorld {
 		
 	}
 	
-	//This method tells the cyborg to break and decreases speed by 5
+	/**
+	 * This method tells the cyborg to break and decreases speed by 5
+	 */
 	public void cyborgBreaking() {
 		int speed = this.cyborg.getSpeed();
+		
 		if (speed >= 0 && (speed > 0)) {
 			this.cyborg.setSpeed(speed - 5);
 			speed -= 5;
@@ -143,10 +174,12 @@ public class GameWorld {
 		 
 			
 	}
-	// This tells the cyborg to go left by 5 degrees
+	/**
+	 *  This tells the cyborg to update the steering and the heading to the left
+	 */
 	public void goLeft() {
-//		cyborg.turnLeft();
 		int steeringDir = cyborg.getSteeringDirection();
+		
 		if(steeringDir == 0) {
 			cyborg.setSteeringDirection(steeringDir);
 			cyborg.setHeading(5);
@@ -162,10 +195,13 @@ public class GameWorld {
 		}
 		System.out.println("The cyborg has turned left by 5 degrees " + this.cyborg.getHeading() + "\n");
 	}
-	// This tells the cyborg to go right by 5 degrees
+	
+	/**
+	 *  This tells the cyborg to update the steering and the heading to the right
+	 */
 	public void goRight() {
-//		cyborg.turnRight();
 		int steeringDir = cyborg.getSteeringDirection();
+		
 		if(steeringDir == 0) {
 			cyborg.setSteeringDirection(steeringDir);
 			cyborg.setHeading(5);
@@ -180,14 +216,16 @@ public class GameWorld {
 				
 		}
 		System.out.println("The cyborg has turned left by 5 degrees " + this.cyborg.getHeading() + "\n");
-
-		
 	}
-	// increases the time of the clock
+	
+	/**
+	 *  increases the time of the clock and updates the location of movable objects
+	 */
 	public void tick() {
 		
 		if((cyborg.getDamageLevel() != 200) || (cyborg.getEnergyLevel() != 0) || (cyborg.getSpeed() != 0)) {
 			cyborg.move();
+			cyborg.setSteeringDirection(0);
 			cyborg.setEnergyLevel(cyborg.getEnergyConsumptionLevel());
 			this.clock++;
 			for(GameObject mvAble : gameObjects) {
@@ -200,10 +238,11 @@ public class GameWorld {
 			}
 		} 
 		System.out.println("The clock is at " + this.clock + "\n\n");
-		
 	}
 	
-	// displays the current state of the player (cyborg)
+	/**
+	 *  displays the current state of the player (cyborg)
+	 */
 	public void display() {
 		String lives = "Current lives: " + getLives() + ", \n";
 		String clock = "Current clock: " + getClock() + ", \n";
@@ -214,7 +253,9 @@ public class GameWorld {
 		System.out.println(lives + clock + baseNumber + enLevel + damLevel + "\n\n");
 		
 	}
-	
+	/**
+	 * Displays the state of the world, locations of the objects and its attributes
+	 */
 	public void mapGame() {
 		
 		System.out.println("Cyborg: loc=(" + this.cyborg.getLocation().getX() + ", " + cyborg.getLocation().getY() + ")"
@@ -244,7 +285,9 @@ public class GameWorld {
 		}
 		System.out.print("\n\n");
 	}
-	//This method exits the game after it is called
+	/**
+	 * This method exits the game after it is called
+	 */
 	public void exit() {
 		System.exit(0);
 	}

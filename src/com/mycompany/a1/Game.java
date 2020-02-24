@@ -7,7 +7,6 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 public class Game extends Form{
 	private GameWorld gw ;
-	private boolean isExiting = false;
 	
 	public Game() {
 		gw = new GameWorld();
@@ -30,14 +29,6 @@ public class Game extends Form{
 				String sCommand=myTextField.getText().toString();
 				myTextField.clear();
 				if(sCommand.length() != 0)
-//					if(isExiting) {
-//						switch(sCommand.charAt(0)) {
-//					case 'y':
-//						gw.exit();
-//						break;
-//					case 'n':
-//						isExiting = false;
-//					}
 					switch (sCommand.charAt(0)) {
 					case '1':
 						gw.baseCollision();
@@ -66,12 +57,8 @@ public class Game extends Form{
 					case '9':
 						gw.baseCollision();
 						break;
-						
 					case 'x':
-						isExiting = true;
 						System.out.print("Are you sure you want to exit");
-						
-							gw.exit();
 							break;
 					case 'a':
 						gw.cyborgAccelerate();
@@ -103,7 +90,15 @@ public class Game extends Form{
 					case 'm':
 						gw.mapGame();
 						break;
-//					}
+					case 'n':
+						System.out.println("Continue");
+						break;
+					case'y':
+						gw.exit();
+						break;
+					default:
+						System.out.println("Type a correct command");
+					
 				} //switch
 			
 			} //actionPerformed
