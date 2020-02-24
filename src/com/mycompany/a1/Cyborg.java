@@ -132,8 +132,26 @@ public class Cyborg extends MoveableGameObject implements ISteerable {
 	}
 	
 	@Override
-	public void setHeading(int heading) {
-		this.heading = heading;
-		
+	public void turnLeft() {
+		if(this.getSteeringDirection() == 0) {
+			setSteeringDirection(this.getSteeringDirection());
+			setHeading(5);
+		}
+		if(this.getSteeringDirection() <= 40) {
+			this.setSteeringDirection(this.getSteeringDirection() - 5);
+			this.setHeading(this.getSteeringDirection() - 5);
+		}
 	}
+	@Override
+	public void turnRight(){
+		if(this.getSteeringDirection() == 0) {
+			setSteeringDirection(this.getSteeringDirection());
+			setHeading(5);
+		}
+		if(this.getSteeringDirection() <= 40) {
+			this.setSteeringDirection(this.getSteeringDirection()+5);
+			this.setHeading(this.getSteeringDirection()+5);
+		}
+	}
+	
 }

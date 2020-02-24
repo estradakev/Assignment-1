@@ -25,6 +25,9 @@ public class MoveableGameObject extends GameObject{
 	public int getHeading() {
 		return heading;
 	}
+	public void setHeading(int heading) {
+		this.heading = heading;
+	}
 	
 	@Override
 	public String toString() {
